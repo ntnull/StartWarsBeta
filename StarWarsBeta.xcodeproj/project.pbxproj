@@ -18,6 +18,7 @@
 		F3E100222327BC1300EB4F5A /* FireParticle.sks in Resources */ = {isa = PBXBuildFile; fileRef = F3E100212327BC1300EB4F5A /* FireParticle.sks */; };
 		F3E100242327BC5700EB4F5A /* MagicParticle.sks in Resources */ = {isa = PBXBuildFile; fileRef = F3E100232327BC5700EB4F5A /* MagicParticle.sks */; };
 		F3E100262327BC7100EB4F5A /* RainParticle.sks in Resources */ = {isa = PBXBuildFile; fileRef = F3E100252327BC7100EB4F5A /* RainParticle.sks */; };
+		F3E1002A2328EEFD00EB4F5A /* TestParticle.sks in Resources */ = {isa = PBXBuildFile; fileRef = F3E100292328EEFD00EB4F5A /* TestParticle.sks */; };
 		F3ED5244231788D3002D4EA8 /* Joystick.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3ED5243231788D3002D4EA8 /* Joystick.swift */; };
 /* End PBXBuildFile section */
 
@@ -35,6 +36,7 @@
 		F3E100212327BC1300EB4F5A /* FireParticle.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = FireParticle.sks; sourceTree = "<group>"; };
 		F3E100232327BC5700EB4F5A /* MagicParticle.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MagicParticle.sks; sourceTree = "<group>"; };
 		F3E100252327BC7100EB4F5A /* RainParticle.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = RainParticle.sks; sourceTree = "<group>"; };
+		F3E100292328EEFD00EB4F5A /* TestParticle.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = TestParticle.sks; sourceTree = "<group>"; };
 		F3ED5243231788D3002D4EA8 /* Joystick.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Joystick.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -81,6 +83,7 @@
 				F3E100212327BC1300EB4F5A /* FireParticle.sks */,
 				F3E100232327BC5700EB4F5A /* MagicParticle.sks */,
 				F3E100252327BC7100EB4F5A /* RainParticle.sks */,
+				F3E100292328EEFD00EB4F5A /* TestParticle.sks */,
 			);
 			path = StarWarsBeta;
 			sourceTree = "<group>";
@@ -144,6 +147,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F3E100242327BC5700EB4F5A /* MagicParticle.sks in Resources */,
+				F3E1002A2328EEFD00EB4F5A /* TestParticle.sks in Resources */,
 				F303B0B621DB51A400DB61F8 /* Main.storyboard in Resources */,
 				F303B0AD21DB51A400DB61F8 /* GameScene.sks in Resources */,
 				F303B0B821DB51A500DB61F8 /* Assets.xcassets in Resources */,
