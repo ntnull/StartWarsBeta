@@ -107,26 +107,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var coinTotal: Int = 3
     
     override func update(_ currentTime: TimeInterval) {
-        
-        /*
-        // Called before each frame is rendered
-        if (bg3.position.y <= -self.frame.size.height/2 - bg3.size.height/2) {
-            bg3.position = CGPoint(x: 0, y:self.frame.size.height/2 - bg3.size.height/2)
-            //this ensures that your backgrounds line up perfectly
-        }
-        if (bg2.position.y <= -self.frame.size.height/2  - bg2.size.height/2){
-            bg2.position = CGPoint(x: 0, y:self.frame.size.height/2 - bg2.size.height/2)
-            //this ensures that your backgrounds line up perfectly
-        }
-        if (bg.position.y <= -self.frame.size.height/2){
-                print("\(bg.position.y) and \(-self.frame.size.height/2  - bg.size.height/2)")
-                bg.position = CGPoint(x: 0, y:self.frame.size.height/2 - bg.size.height/2)
-        }
-        */
         moveGrounds()
-        
-        
-        
     }
     
     
@@ -138,7 +119,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             ground.size=CGSize(width: self.size.width, height: self.size.height)
             ground.position=CGPoint(x: 0, y: CGFloat(i)*ground.size.height)
             ground.anchorPoint=CGPoint(x: 0.5, y: 0.5)
-            //print(ground.position.y)
             self.addChild(ground)
         }
     }
