@@ -205,18 +205,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 createBoss()
             }
         }
-            
-        /*
-        let actionMove = SKAction.move(to: CGPoint(x: -asteroid.size.width/2, y: actualY), duration: TimeInterval(actualDuration))
-        let actionMoveDone = SKAction.removeFromParent()
-        let loseAction = SKAction.run() { [weak self] in
-            guard let `self` = self else { return }
-            let reveal = SKTransition.flipHorizontal(withDuration: 0.5)
-            let gameOverScene = GameOverScene(size: self.size, won: false)
-            self.view?.presentScene(gameOverScene, transition: reveal)
-        }
-          monster.run(SKAction.sequence([actionMove, loseAction, actionMoveDone]))
-        */
         
     }
     
