@@ -138,11 +138,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        for touch in touches
-        {
-                //spMan.position.x = touch.location(in: self).x
-                //spMan.position.y = touch.location(in: self).y
-        }
         
         if(coinTotal==coinCount)
         {
