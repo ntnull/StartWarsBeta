@@ -48,10 +48,11 @@ extension CGPoint {
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
-    /*
+/*
+    
     let joystick = Joystick()
     //let player = SKSpriteNode(color: UIColor.red, size: CGSize(width: 20, height: 20))
-    var player  = SKSpriteNode.init(imageNamed: "Saturn.png")
+    var player  = SKSpriteNode.init(imageNamed: "spaceman")
     
     override func didMove(to view: SKView) {
         joystick.position = CGPoint(x:-60, y:-220)
@@ -77,27 +78,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-    */
+ */
     
  
-    var bkgNode: SKNode!
-    
-    var bgTexture: SKTexture!
-    var bgObject=SKNode()
-    var bg=SKSpriteNode()
     var spMan=SKSpriteNode()
-    var spAst=SKSpriteNode()
-    var bodySp=SKPhysicsBody(rectangleOf: CGSize(width: 106, height: 86))
-    var bodyAst=SKPhysicsBody(rectangleOf: CGSize(width: 128, height: 112))
-    
-    
-    var bg2 = SKSpriteNode()
-    var bg3 = SKSpriteNode()
-    var sz: CGFloat = 300
-
-    
-    var parallax = SKAction()
-    
     var coin = SKSpriteNode()
     var lb = SKLabelNode()
     var ground = SKSpriteNode()
@@ -137,6 +121,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }))
     }
     
+    
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         
         if(coinTotal==coinCount)
@@ -145,16 +130,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             spMan.position.x = t?.location(in: self).x ??  0
             spMan.position.y = t?.location(in: self).y ??  0
             
-            print("\(coinCount) and \(coinTotal)")
-            
-            run(SKAction.repeatForever(
-                SKAction.sequence([
-                    SKAction.run(ShootShuriken),
-                    SKAction.wait(forDuration: 3.0)
-                    ])
-            ))
         }
     }
+ 
     
     func random() -> CGFloat {
         return CGFloat(Float(arc4random()) / 0xFFFFFFFF)
@@ -193,7 +171,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
                 let actualDuration = random(min: CGFloat(2.0), max: CGFloat(4.0))
                 let actionMove = SKAction.move(to: CGPoint(x: asteroid.position.x, y: asteroid.position.y + yh*2 + asteroid.size.height), duration: TimeInterval(actualDuration))
-                asteroid.run(actionMove)
+                let actionMoveDone = SKAction.removeFromParent()
+                asteroid.run(SKAction.sequence([actionMove, actionMoveDone]))
             }
             else
             {
@@ -318,32 +297,37 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let actionMoveDone = SKAction.removeFromParent()
             bullet.run(SKAction.sequence([actionMove, actionMoveDone]))
         }
+        else if(coinCount==coinTotal)
+        {
+              ShootShuriken()
+        }
         
     }
     
     func ShootShuriken ()
     {
-        let bullet = SKSpriteNode(imageNamed: "Shuriken")
-        bullet.zPosition=3
-        bullet.name="Bullet"
-        bullet.size=CGSize(width: 20, height: 20)
-        bullet.position.y = boss.position.y+bullet.size.height
-        bullet.position.x = boss.position.x
+        let boss = self.childNode(withName: "Boss")
+        if (boss == nil){ return }
+
+            let bullet = SKSpriteNode(imageNamed: "Shuriken")
+            bullet.zPosition=3
+            bullet.name="Asteroid"
+            bullet.size=CGSize(width: 20, height: 20)
+            bullet.position.y = boss!.position.y+bullet.size.height
+            bullet.position.x = boss!.position.x
         
         bullet.physicsBody = SKPhysicsBody(rectangleOf: bullet.size)
-        //bullet.physicsBody?.isDynamic = true
         bullet.physicsBody?.categoryBitMask = PhysicsType.Bullet.rawValue
-        bullet.physicsBody?.contactTestBitMask = PhysicsType.Asteroid.rawValue
+        bullet.physicsBody?.contactTestBitMask = PhysicsType.SpaceMan.rawValue
         bullet.physicsBody?.collisionBitMask = PhysicsType.None.rawValue
-        bullet.physicsBody?.usesPreciseCollisionDetection = true
         bullet.physicsBody?.allowsRotation=false
         
-        print("spManX=\(spMan.position.x) and spManY=\(spMan.position.y)")
-        let actualDuration = random(min: CGFloat(2.0), max: CGFloat(4.0))
-        print("actualDuration= \(actualDuration)")
-        print("bossX=\(boss.position.x) and bossY=\(boss.position.y)")
-        let actionMove = SKAction.move(to: spMan.position, duration: TimeInterval(actualDuration))
-        bullet.run(actionMove)
+        
+            addChild(bullet)
+            let firstMove = SKAction.move(to: spMan.position, duration: TimeInterval(1))
+        let secondMove = SKAction.move(to: CGPoint(x: spMan.position.x, y: 1000), duration: TimeInterval(1))
+        let actionMoveDone = SKAction.removeFromParent()
+            bullet.run(SKAction.sequence([firstMove, secondMove, actionMoveDone]))
         
     }
     
@@ -354,6 +338,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         emitter.position=CGPoint(x: size.width/2, y: size.height)
         addChild(emitter)
     }
+    
     
     override func didMove(to view: SKView) {
         
@@ -384,191 +369,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     SKAction.wait(forDuration: 3.0)
                     ])
             ))
-      
         
-        //self.anchorPoint=CGPoint(x: 0.5, y: 0.5)
-        
-        /*
-        sz = self.frame.size.height/3
-        
-        bg = SKSpriteNode(imageNamed: "bkg.png")
-        bg.zPosition = 3
-        bg.size = CGSize(width:self.frame.size.width, height:sz)
-        var diff = self.frame.size.height/2 - bg.size.height/2
-        bg.position = CGPoint(x: 0, y: -diff)
-        
-        bg2 = SKSpriteNode(imageNamed: "bkg.png")
-        bg2.zPosition = 3
-        bg2.size = CGSize(width:self.frame.size.width, height:sz)
-        diff = bg.position.y + bg2.size.height
-        bg2.position = CGPoint(x: 0, y:diff)
-        
-        bg3 = SKSpriteNode(imageNamed: "background.png")
-        bg3.zPosition = 3
-        bg3.size = CGSize(width:self.frame.size.width, height:sz)
-        diff = bg2.position.y+bg3.size.height
-        bg3.position = CGPoint(x: 0, y:diff)
-        
-        self.addChild(bg)
-        self.addChild(bg2)
-        self.addChild(bg3)
-        
-        parallax = SKAction.repeatForever(SKAction.move(by: CGVector(dx: 0, dy: -self.frame.size.height/2), duration: 7))
-        //higher duration moves it slower, lower duration moves it faster
-  
-        
-        
-        bg.run(parallax)
-        bg2.run(parallax)
-        bg3.run(parallax)
-        
-        */
-        
-        
-        
-        //self.addChild(bgObject)
         physicsWorld.contactDelegate = self
-        
-        
-        
-        /*
-        createActor()
-        
-        let dt = DispatchTime.now() + .seconds(2)
-        DispatchQueue.main.asyncAfter(deadline: dt){
-            self.createAsteroid()
-            let mvAst = SKAction.move(by: CGVector(dx: 0, dy: 200), duration: 2)
-            self.spAst.run(mvAst)
-        }
-        */
-        
-        //let mvSp = SKAction.move(by: CGVector(dx: 0, dy: -self.size.height+spMan.size.height), duration: 10)
-        //spMan.run(mvSp)
+    
     }
-    
-    
-    /*
-    
-    func createBg(){
-        bgTexture=SKTexture(imageNamed: "bkg.png")
-        let moveBg=SKAction.moveBy(x: 0, y: -bgTexture.size().height, duration: 3)
-        let replaceBg=SKAction.moveBy(x: 0, y: bgTexture.size().height, duration: 3)
-        let moveBgForever=SKAction.repeatForever(SKAction.sequence([moveBg,replaceBg]))
-        
-        for i in 0..<3{
-            bg=SKSpriteNode(texture: bgTexture)
-            bg.position=CGPoint(x:0, y:  bg.size.height * CGFloat(i))
-            bg.size.height = self.frame.height
-            bg.size.width=self.frame.width
-            bg.run(moveBgForever)
-            bg.zPosition = -1
-            bgObject.addChild(bg)
-        }
-        
-    }
-    
-    
-    
-    func createGrounds()
-    {
-        for i in 0...3{
-            let ground = SKSpriteNode(imageNamed: "Saturn.png")
-            ground.name="Ground"
-            ground.size=CGSize(width: (self.scene?.size.width)!, height: 250)
-            ground.anchorPoint=CGPoint(x:CGFloat(i) * ground.size.width,y:-(self.frame.size.height / 2))
-            self.addChild(ground)
-        }
-    }
-    
-    func moveGrounds(){
-        self.enumerateChildNodes(withName: "Ground", using: ({
-            (node,error) in
-            print(node.name!)
-            node.position.x-=2
-            if node.position.x < -((self.scene?.size.width)!){
-                node.position.x += (self.scene?.size.width)! * 3
-                print(node.position.x)
-            }
-        }))
-    }
-    
-    
-    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        for touch in touches
-        {
-            spMan.position.x = touch.location(in: self).x
-            spMan.position.y = touch.location(in: self).y
-        }
-    }
-    
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        //spman.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 50))
-    }
-    
-    func createActor()
-    {
-        spMan = SKSpriteNode.init(imageNamed: "spaceman.png")
-        bodySp.affectedByGravity=false
-        
-        bodySp.contactTestBitMask=ColliderType.SPAst.rawValue
-        //bodySp.collisionBitMask=ColliderType.SPAst.rawValue
-        bodySp.categoryBitMask=ColliderType.SPMan.rawValue
-        
-        spMan.physicsBody=bodySp
-        spMan.position=CGPoint(x: 0, y: self.size.height/2-spMan.size.height/2)
-
-        bgObject.addChild(spMan)
-     
-    }
-    
-    func createAsteroid()
-    {
-        spAst = SKSpriteNode.init(imageNamed: "Flare asteroid.png")
-        spAst.position=CGPoint(x: 0, y:  -self.size.height/2+spAst.size.height/2)
-        bodyAst.affectedByGravity=false
-        
-        bodyAst.categoryBitMask=ColliderType.SPAst.rawValue
-        bodyAst.contactTestBitMask=ColliderType.SPMan.rawValue
-        //bodyAst.collisionBitMask=ColliderType.SPMan.rawValue
-        spAst.physicsBody=bodyAst
-        
-        bgObject.addChild(spAst)
-        
-    }
-    
-    func createBg(){
-        bgTexture=SKTexture(imageNamed: "bkg.png")
-        let moveBg=SKAction.moveBy(x: 0, y: -bgTexture.size().height, duration: 3)
-        let replaceBg=SKAction.moveBy(x: 0, y: bgTexture.size().height, duration: 3)
-        let moveBgForever=SKAction.repeatForever(SKAction.sequence([moveBg,replaceBg]))
-        
-        for i in 0..<3{
-            bg=SKSpriteNode(texture: bgTexture)
-            bg.position=CGPoint(x:0, y:  bg.size.height * CGFloat(i))
-            bg.size.height = self.frame.height
-            bg.size.width=self.frame.width
-            bg.run(moveBgForever)
-            bg.zPosition = -1
-            bgObject.addChild(bg)
-        }
-        
-    }
-    
-    func didBegin(_ contact: SKPhysicsContact)
-    {
-            didCollide(spman: contact.bodyA.node as! SKSpriteNode, spast: contact.bodyB.node as! SKSpriteNode)
-    }
-    
-    func didCollide(spman: SKSpriteNode, spast: SKSpriteNode)
-    {
-        spman.removeFromParent()
-        spast.removeFromParent()
-        print("Contact detected")
-        
-        let lb = SKLabelNode()
-        lb.text="Boom boom"
-        self.addChild(lb)
-    }
-    */
  
+    
 }
