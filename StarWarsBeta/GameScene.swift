@@ -93,6 +93,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     override func update(_ currentTime: TimeInterval) {
         moveGrounds()
         print("OK")
+        print("NOT OK")
     }
     
     
